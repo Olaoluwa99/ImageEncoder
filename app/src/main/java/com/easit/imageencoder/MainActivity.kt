@@ -1,5 +1,6 @@
 package com.easit.imageencoder
 
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -44,6 +45,67 @@ class MainActivity : ComponentActivity() {
                 )
 
                 //
+                val btm = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
+                val btmScd = Bitmap.createScaledBitmap(btm, 30, 30, false)
+                val btmScd2 = Bitmap.createScaledBitmap(btm, btm.width/2, btm.height/2, false)
+                //val btmCrp = Bitmap.createBitmap(btm,15, 15, 30, 30)
+
+                //
+                var widthParam = 0
+                var heightParam = 0
+                val heightExtend = btmScd2.height
+                val widthExtend = btmScd2.width
+
+                //Line 1
+                widthParam = 0
+                heightParam = 0
+                val btmLn1Crp1 = Bitmap.createBitmap(btm, widthParam, heightParam, widthExtend, heightExtend)
+                widthParam += widthExtend
+                val btmLn1Crp2 = Bitmap.createBitmap(btm, widthParam, heightParam, widthExtend, heightExtend)
+                widthParam += widthExtend
+                val btmLn1Crp3 = Bitmap.createBitmap(btm, widthParam, heightParam, widthExtend, heightExtend)
+                widthParam += widthExtend
+                val btmLn1Crp4 = Bitmap.createBitmap(btm, widthParam, heightParam, widthExtend, heightExtend)
+
+
+                //Line 2
+                widthParam = 0
+                heightParam += heightExtend
+                val btmLn2Crp1 = Bitmap.createBitmap(btm, widthParam, heightParam, widthExtend, heightExtend)
+                widthParam += widthExtend
+                val btmLn2Crp2 = Bitmap.createBitmap(btm, widthParam, heightParam, widthExtend, heightExtend)
+                widthParam += widthExtend
+                val btmLn2Crp3 = Bitmap.createBitmap(btm, widthParam, heightParam, widthExtend, heightExtend)
+                widthParam += widthExtend
+                val btmLn2Crp4 = Bitmap.createBitmap(btm, widthParam, heightParam, widthExtend, heightExtend)
+
+
+                //Line 3
+                widthParam = 0
+                heightParam += heightExtend
+                val btmLn3Crp1 = Bitmap.createBitmap(btm, widthParam, heightParam, widthExtend, heightExtend)
+                widthParam += widthExtend
+                val btmLn3Crp2 = Bitmap.createBitmap(btm, widthParam, heightParam, widthExtend, heightExtend)
+                widthParam += widthExtend
+                val btmLn3Crp3 = Bitmap.createBitmap(btm, widthParam, heightParam, widthExtend, heightExtend)
+                widthParam += widthExtend
+                val btmLn3Crp4 = Bitmap.createBitmap(btm, widthParam, heightParam, widthExtend, heightExtend)
+
+
+                //Line 4
+                widthParam = 0
+                heightParam += heightExtend
+                val btmLn4Crp1 = Bitmap.createBitmap(btm, widthParam, heightParam, widthExtend, heightExtend)
+                widthParam += widthExtend
+                val btmLn4Crp2 = Bitmap.createBitmap(btm, widthParam, heightParam, widthExtend, heightExtend)
+                widthParam += widthExtend
+                val btmLn4Crp3 = Bitmap.createBitmap(btm, widthParam, heightParam, widthExtend, heightExtend)
+                widthParam += widthExtend
+                val btmLn4Crp4 = Bitmap.createBitmap(btm, widthParam, heightParam, widthExtend, heightExtend)
+
+
+
+                //
                 Column() {
                     //
                     Button(onClick = {
@@ -64,6 +126,7 @@ class MainActivity : ComponentActivity() {
                         contentScale = ContentScale.Crop,
 
                     )
+
                 }
 
 

@@ -7,7 +7,7 @@ Briefly describe your app and its primary functionality.
 
 ## Screenshots
 
-Include screenshots or images that showcase the app's interface and key features.
+Screenshots or images that showcase the app's interface and key features.
 
 ## Features
 
@@ -27,7 +27,7 @@ Features and improvements to be implemented:
 
 ## Getting Started
 
-Provide instructions on how to get started with your app. Include any prerequisites, installation steps, or setup.
+Instructions on how to get started with this app.
 
 ### Prerequisites
 
@@ -47,7 +47,7 @@ Provide instructions on how to get started with your app. Include any prerequisi
 
 ## Usage
 
-Explain how to use your app. Provide step-by-step instructions and usage examples.
+Step-by-step instructions and usage examples.
 
 ## Development
 
@@ -64,8 +64,8 @@ Determine and state the license under which your project is released.
 
 ## Contact
 
-Provide a way for users or potential contributors to contact you (e.g., email or social media links).
+**olaoluwaodewale99@gmail.com**
 
 ## Acknowledgements
 
-Credit any libraries, tools, or resources you used or were inspired by in your project.
+**TBD**

@@ -15,6 +15,11 @@ Include screenshots or images that showcase the app's interface and key features
 - **Indexing:** Assign unique indices to grid sections and shuffle them.
 - **User-Friendly Interface:** Easy-to-use design for selecting and processing images.
 
+- ## Roadmap
+
+Outline future features and improvements you plan to implement.
+![Level 1](https://ibb.co/KjR8Ljx.png)
+
 ## Getting Started
 
 Provide instructions on how to get started with your app. Include any prerequisites, installation steps, or setup.
@@ -47,10 +52,6 @@ If you want to contribute to the project, follow these steps:
 2. Create a new branch.
 3. Make your changes.
 4. Submit a pull request.
-
-## Roadmap
-
-Outline future features and improvements you plan to implement.
 
 ## License
 

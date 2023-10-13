@@ -15,11 +15,14 @@ Include screenshots or images that showcase the app's interface and key features
 - **Indexing:** Assign unique indices to grid sections and shuffle them.
 - **User-Friendly Interface:** Easy-to-use design for selecting and processing images.
 
-- ## Roadmap
 
-Outline future features and improvements you plan to implement.
+## Roadmap
 
-![Level 1](https://imageupload.io/ib/DhOoPj9Uscjuqvt_1697223405.png)
+Features and improvements to be implemented:
+
+![Level 1](https://i.ibb.co/SXWZdXw/Artboard-1.png)
+![Level 2](https://i.ibb.co/F8dWqVM/Artboard-2.png)
+![Level 3](https://i.ibb.co/qBvt5ZG/Artboard-3.png)
 
 
 ## Getting Started

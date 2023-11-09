@@ -1,5 +1,5 @@
 # ImageEncoder
-![App Logo](https://iconape.com/wp-content/png_logo_vector/adobe-media-encoder.png) 
+![App Logo](iconImage.jpg)
 
 ## Overview
 

@@ -3,8 +3,7 @@
 
 ## Overview
 
-Briefly describe your app and its primary functionality.
-
+In today's digital age, privacy and security are paramount concerns. We often share images that we don't want to be accessible to just anyone. Whether it's personal photos or sensitive documents, ImageEncoder is the app you need to safeguard your visual content. ImageEncoder uses cutting-edge encryption techniques to protect your images by cutting them into grids, shuffling the pieces, and compiling them into a single image. 
 ## Screenshots
 
 Screenshots or images that showcase the app's interface and key features.

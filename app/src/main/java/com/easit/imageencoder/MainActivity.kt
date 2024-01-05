@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import com.easit.imageencoder.ui.theme.ImageEncoderTheme
 import androidx.compose.ui.tooling.preview.Preview
+import com.easit.Profile
 import com.easit.imageencoder.ui.Encoder1
 import com.easit.imageencoder.ui.Encoder101
 import com.easit.imageencoder.ui.Encoder2
@@ -17,10 +18,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ImageEncoderTheme {
+                Profile()
                 //Encoder1()
                 //Encoder2()
                 //Encoder3()
-                Encoder101()
+                //Encoder101()
             }
         }
     }

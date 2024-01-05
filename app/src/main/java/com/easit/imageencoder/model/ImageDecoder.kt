@@ -69,7 +69,7 @@ class ImageDecoder {
         originalTileOrder.forEachIndexed { index, originalIndex ->
             val shuffledTile = shuffledTiles[originalIndex]
             val unrotatedTile = if (isRotated(shuffledTile)) {
-                rotateBitmap(shuffledTile, -90f) // Un-rotate the shuffled tile if needed
+                rotateBitmap(shuffledTile, -180f) // Un-rotate the shuffled tile if needed
             } else {
                 shuffledTile
             }
@@ -79,7 +79,27 @@ class ImageDecoder {
         return unshuffledTiles
     }
 
-    fun splitImageToParts(bitmap: Bitmap): List<Bitmap> {
+    fun fullUnShuffle(bitmap: Bitmap, userSeed: Long): Bitmap{
+        val split = splitImageToParts(bitmap)
+        val unShuffled = unShuffle(split, userSeed)
+        return reassembleImage(unShuffled)
+    }
+
+    fun fullUnRotateAndUnShuffle(bitmap: Bitmap, userSeed: Long, indexList: MutableList<Int>) : Bitmap{
+        val split = splitImageToParts(bitmap)
+        val unShuffled = unShuffle(split, userSeed)
+        val reset = resetImageRotation(unShuffled as MutableList<Bitmap>, indexList)
+        return reassembleImage(reset)
+    }
+
+    fun fullUnRotateAndUnShuffle2(bitmap: Bitmap, userSeed: Long, indexList: MutableList<Int>) : Bitmap{
+        val split = splitImageToParts(bitmap)
+        val reset = resetImageRotation(split as MutableList<Bitmap>, indexList)
+        val unShuffled = unShuffle(reset, userSeed)
+        return reassembleImage(unShuffled)
+    }
+
+    private fun splitImageToParts(bitmap: Bitmap): List<Bitmap> {
         val imageWidth = bitmap.width
         val imageHeight = bitmap.height
 
@@ -98,11 +118,10 @@ class ImageDecoder {
                 tiles.add(croppedBitmap)
             }
         }
-
         return tiles
     }
 
-    fun reassembleImage(tiles: List<Bitmap>): Bitmap {
+    private fun reassembleImage(tiles: List<Bitmap>): Bitmap {
         // Reassemble the image into a new bitmap
         val imageWidth = tiles[0].width * 4
         val imageHeight = tiles[0].height * 4
@@ -137,5 +156,48 @@ class ImageDecoder {
         val exif = ExifInterface(bitmapToInputStream(bitmap))
         val orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
         return orientation != ExifInterface.ORIENTATION_NORMAL
+    }
+
+
+    fun unShuffle(splitImageList: List<Bitmap>, userSeed: Long): List<Bitmap>{
+        val splitCount = splitImageList.size
+
+        //Shuffle index
+        val numberList = mutableListOf<Int>()
+        for (i in 0 until splitCount) {
+            numberList.add(i)
+        }
+        val rand = Random(userSeed)//Random
+        val shuffledNumberList = numberList.shuffled(rand)
+
+        //Create index list
+        val indexList = mutableListOf<Int>()
+        for (element in numberList){
+            shuffledNumberList.forEachIndexed { index, value ->
+                if (element == value) indexList.add(index)
+            }
+        }
+
+        //UnShuffle list with received index
+        val unShuffledImageList = mutableListOf<Bitmap>()
+        for (i in 0 until splitImageList.size - 0) {
+            unShuffledImageList.add(splitImageList[(indexList[i] + 0)])
+        }
+        return unShuffledImageList
+    }
+
+    private fun resetImageRotation(splitImageList: MutableList<Bitmap>, rotateIndex: List<Int>): List<Bitmap>{
+        val fixedList = mutableListOf<Bitmap>()
+        rotateIndex.forEachIndexed { index, value ->
+            if (value == 1){
+                //Rotate and add to list
+                val fixedItem = rotateBitmap(splitImageList[index], -180f)
+                fixedList.add(fixedItem)
+            }else{
+                //Add to list
+                fixedList.add(splitImageList[index])
+            }
+        }
+        return fixedList
     }
 }

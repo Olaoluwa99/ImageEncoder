@@ -3,14 +3,18 @@ package com.easit.imageencoder.model
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Matrix
-import android.media.ExifInterface
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
-import java.io.InputStream
+import com.easit.imageencoder.data.RotateTileResult
 import kotlin.random.Random
 
 class ImageEncoder {
-    fun splitImageToParts(bitmap: Bitmap): List<Bitmap> {
+
+    var tileState = mutableListOf(
+        0, 0, 0, 0,
+        0, 0, 0, 0,
+        0, 0, 0, 0,
+        0, 0, 0, 0
+    )
+    fun splitImageToParts(imagePartsRoot: Int, bitmap: Bitmap): List<Bitmap> {
         val imageWidth = bitmap.width
         val imageHeight = bitmap.height
 
@@ -19,8 +23,8 @@ class ImageEncoder {
         val tiles = mutableListOf<Bitmap>()
 
         // Split image into 16 parts
-        for (y in 0 until 4) {
-            for (x in 0 until 4) {
+        for (y in 0 until imagePartsRoot) {
+            for (x in 0 until imagePartsRoot) {
                 val croppedBitmap = Bitmap.createBitmap(
                     bitmap,
                     x * tileWidth, y * tileHeight,
@@ -33,14 +37,16 @@ class ImageEncoder {
         return tiles
     }
 
-    fun rotateTiles(tiles: MutableList<Bitmap>): MutableList<Bitmap> {
+    fun rotateTiles(tiles: MutableList<Bitmap>): RotateTileResult {
         val rotateThreshold = 0.5 // Change this to adjust the rotation probability
         tiles.forEachIndexed { index, tile ->
             if (Math.random() < rotateThreshold) {
-                tiles[index] = rotateBitmap(tile, 90f) // Rotate 90 degrees (adjust as needed)
+                tiles[index] = rotateBitmap(tile, 180f) // Rotate 180 degrees (adjust as needed)
+                //Add rotated tile index to
+                tileState[index] = 1
             }
         }
-        return tiles
+        return RotateTileResult(tileState, tiles)
     }
 
     fun shuffleBitmap(tiles: List<Bitmap>, userSeed: Long): List<Bitmap> {

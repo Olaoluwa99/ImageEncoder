@@ -32,6 +32,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.easit.imageencoder.data.RotateTileResult
 import com.easit.imageencoder.model.EncoderModel1
 import com.easit.imageencoder.model.EncoderModel2
 import com.easit.imageencoder.model.EncoderModel3
@@ -41,12 +42,17 @@ import com.easit.imageencoder.model.ImageEncoder
 fun Encoder101() {
     val context = LocalContext.current
 
+    val imagePartsRoot = 4
     var bitmap by remember { mutableStateOf<Bitmap?>(null) }
     var phase1Bitmap by remember { mutableStateOf<Bitmap?>(null) }
     var phase2Bitmap by remember { mutableStateOf<Bitmap?>(null) }
 
     var decoded1Bitmap by remember { mutableStateOf<Bitmap?>(null) }
     var decoded2Bitmap by remember { mutableStateOf<Bitmap?>(null) }
+
+    val emptyBitmapList = mutableListOf<Bitmap>()
+    val emptyIntList = mutableListOf<Int>()
+    var rotatedResponse by remember { mutableStateOf(RotateTileResult(emptyIntList, emptyBitmapList)) }
 
     //
     var selectedImageUri by remember {
@@ -152,8 +158,7 @@ fun Encoder101() {
             //
             Button(modifier = Modifier.fillMaxWidth(), onClick = {
                 val encoder = ImageEncoder()
-                //phase1Bitmap = encoder.shuffleImage(bitmap!!)
-                phase1Bitmap = encoder.reassembleImage(encoder.shuffleBitmap(encoder.splitImageToParts(bitmap!!), userSeed))
+                phase1Bitmap = encoder.reassembleImage(encoder.shuffleBitmap(encoder.splitImageToParts(imagePartsRoot, bitmap!!), userSeed))
             }) {
                 Text(text = "Shuffle image grid")
             }
@@ -166,7 +171,6 @@ fun Encoder101() {
                         .size(200.dp)
                         .padding(20.dp)
                 )
-                Text(text = "W=${phase1Bitmap!!.width}, H=${phase1Bitmap!!.height}")
             }
         }
 
@@ -174,8 +178,10 @@ fun Encoder101() {
             //
             Button(modifier = Modifier.fillMaxWidth(),onClick = {
                 val encoder = ImageEncoder()
-                //phase1Bitmap = encoder.shuffleImage(bitmap!!)\
-                phase2Bitmap = encoder.reassembleImage(encoder.rotateTiles(encoder.shuffleBitmap(encoder.splitImageToParts(bitmap!!), userSeed) as MutableList<Bitmap>))
+                val splitImageList = encoder.splitImageToParts(imagePartsRoot, bitmap!!)
+                rotatedResponse = encoder.rotateTiles(splitImageList as MutableList<Bitmap>)
+                val shuffledRotatedImages = encoder.shuffleBitmap(rotatedResponse.tile, userSeed)
+                phase2Bitmap = encoder.reassembleImage(shuffledRotatedImages)
             }) {
                 Text(text = "Shuffle & Rotate Image grid")
             }
@@ -186,9 +192,7 @@ fun Encoder101() {
                     contentDescription = null,
                     modifier = Modifier
                         .size(200.dp)
-                        .padding(20.dp)
-                )
-                Text(text = "W=${phase2Bitmap!!.width}, H=${phase2Bitmap!!.height}")
+                        .padding(20.dp)                )
             }
         }
 
@@ -196,9 +200,9 @@ fun Encoder101() {
             //
             Button(modifier = Modifier.fillMaxWidth(),onClick = {
                 val decoder = com.easit.imageencoder.model.ImageDecoder()
-                decoded1Bitmap = decoder.unshuffleImage(phase1Bitmap!!)
+                decoded1Bitmap = decoder.fullUnShuffle(phase1Bitmap!!, userSeed)
             }) {
-                Text(text = "Decode - Shuffle Image grid")
+                Text(text = "Decode - UnShuffle Image grid")
             }
             //
             decoded1Bitmap?.let { btmMain ->
@@ -209,7 +213,6 @@ fun Encoder101() {
                         .size(200.dp)
                         .padding(20.dp)
                 )
-                Text(text = "W=${decoded1Bitmap!!.width}, H=${decoded1Bitmap!!.height}")
             }
         }
 
@@ -217,7 +220,7 @@ fun Encoder101() {
             //
             Button(modifier = Modifier.fillMaxWidth(),onClick = {
                 val decoder = com.easit.imageencoder.model.ImageDecoder()
-                decoded2Bitmap = decoder.reassembleImage(decoder.unshuffleAndRotateTiles(decoder.splitImageToParts(phase2Bitmap!!), userSeed))
+                decoded2Bitmap = decoder.fullUnRotateAndUnShuffle(phase2Bitmap!!, userSeed, rotatedResponse.shuffledListIndex)
             }) {
                 Text(text = "Decode - Shuffle & Rotate Image grid")
             }
@@ -230,7 +233,6 @@ fun Encoder101() {
                         .size(200.dp)
                         .padding(20.dp)
                 )
-                Text(text = "W=${decoded2Bitmap!!.width}, H=${decoded2Bitmap!!.height}")
             }
         }
     }
